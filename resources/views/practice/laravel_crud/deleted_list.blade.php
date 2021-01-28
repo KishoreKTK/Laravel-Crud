@@ -7,6 +7,7 @@
       <p>{{ $message }}</p>
   </div>
   @endif
+  <p><strong>Deleted Users</strong></p>
   <table class="table table-hover">
     <thead>
       <tr>
@@ -17,16 +18,16 @@
       </tr>
     </thead>
     <tbody>
-      @if(count($user_data) != 0)
-        @foreach ($user_data as $key=>$user)
+      @if(count($deleted_data) != 0)
+        @foreach ($deleted_data as $key=>$user)
         <tr>
-            <td>{{ $key + $user_data->firstItem() }}</td>
+            <td>{{ $key + $deleted_data->firstItem() }}</td>
             <td>{{ $user->uname }}</td>
             <td>{{ $user->describe }}</td>
             <td>
-                <form action="{{ route('LaravelCrud.destroy',$user->id) }}" method="POST">
-                  <a class="btn btn-outline-info btn-sm" href="{{ route('LaravelCrud.show',$user->id) }}"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                  <a class="btn btn-outline-warning btn-sm" href="{{ route('LaravelCrud.edit',$user->id) }}"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                <form action="{{ route('DeltedUser.destroy',$user->id) }}" method="POST">
+                    <a class="btn btn-outline-info btn-sm" href="{{ route('restoreDeletedUser',$user->id) }}"><i class="fa fa-floppy-o" aria-hidden="true"></i></a>
+                    {{--  <a class="btn btn-outline-warning btn-sm" href="{{ route('LaravelCrud.show',$user->id) }}"><i class="fa fa-eye" aria-hidden="true"></i></a>            --}}
                   @csrf
                   @method('DELETE')
                   <button type="submit" class="btn btn-outline-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></button>
@@ -39,8 +40,8 @@
       @endif
     </tbody>
   </table>
-  @if(count($user_data) != 0)
-  {!! $user_data->links() !!}
+  @if(count($deleted_data) != 0)
+  {!! $deleted_data->links() !!}
   @endif
 </div>
 @endsection

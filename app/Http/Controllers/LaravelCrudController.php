@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 
 use File;
 
+
+
 // use Illuminate\Support\Facades\Validator;
 // use Redirect;
 
@@ -21,6 +23,7 @@ class LaravelCrudController extends Controller
     public function index()
     {
         $user_data = UserData::latest()->paginate(5);
+
         return view('practice.laravel_crud.index_list',compact('user_data'));
     }
 
@@ -113,10 +116,10 @@ class LaravelCrudController extends Controller
      * @param  \App\Models\UserData  $UserData
      * @return \Illuminate\Http\Response
      */
-    public function show($page, $id)
+    public function show($id)
     {
-        print($page);
-        print("<br>".$id);die;
+        // print($page);
+        // print("<br>".$id);die;
         $UserData = UserData::findOrFail($id);
     
         // if you only use find function then you need to url for 404 redirect there is no post, 404
@@ -211,5 +214,39 @@ class LaravelCrudController extends Controller
     
         return redirect()->route('LaravelCrud.index')
                         ->with('success','User deleted successfully');
+    }
+
+
+    public function deleted_user_view()
+    {
+        
+        $deleted_data = UserData::onlyTrashed()->paginate(5);
+
+        return view('practice.laravel_crud.deleted_list',compact('deleted_data'));
+
+        // print("<pre>");
+        // print_r($data);die;
+    }
+
+    public function restoreDeletedUser($id)
+    {
+        $user = UserData::where('id', $id)->withTrashed()->first();
+
+        $user->restore();
+
+        return redirect()->route('deleteduser')
+            ->with('success', 'You successfully restored the user');
+    }
+
+    
+    public function permanantDeletedUser($id)
+    {
+        $user = UserData::where('id', $id)->withTrashed()->first();
+
+        $user->forceDelete();
+
+        return redirect()->route('deleteduser')
+            ->with('success', 'You successfully deleted the user from the Recycle Bin');
+
     }
 }

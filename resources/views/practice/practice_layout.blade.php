@@ -11,11 +11,14 @@
         <div class="col-md-7 border border-5 shadow p-3 mb-5 bg-white rounded">
             <h3><a href="{{ url('/') }}"><i class="fa fa-home" aria-hidden="true"></i></a>  
                 Laravel Crud 
-                @if (Request::route()->getName() == 'LaravelCrud.index')
-                <a class="float-right" href="{{ route('LaravelCrud.create') }}"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
-                @else
-                <a class="float-right" href="{{ route('LaravelCrud.index') }}"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></a>
-                @endif
+                <div class="float-right">
+                    @if (Request::route()->getName() == 'LaravelCrud.index')
+                    <a href="{{ route('LaravelCrud.create') }}"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+                    <a class="ml-2" href="{{ route('deleteduser') }}"><i class="fa fa-recycle" aria-hidden="true"></i></a>
+                    @else
+                    <a href="{{ route('LaravelCrud.index') }}"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></a>
+                    @endif
+                </div>
             </h3>
             @yield('practice_section')
         </div>

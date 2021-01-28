@@ -14,7 +14,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/','dashboard');
+// Route::view('/','dashboard');
 
+Route::get('/', function () {
+    return redirect('/LaravelCrud');
+});
 
 Route::resource('LaravelCrud', LaravelCrudController::class);
+
+Route::get('/deleted_users','LaravelCrudController@deleted_user_view')->name('deleteduser');
+
+Route::get('deleted_users/restoreuser/{id}', 
+        'LaravelCrudController@restoreDeletedUser')
+        ->name('restoreDeletedUser');
+
+Route::get('deleted_users/deleteduser/{id}', 
+        'LaravelCrudController@permanantDeletedUser')
+        ->name('DeltedUser.destroy');
+
